@@ -1,10 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container">
-      <div class="content-section">
-        <form method="POST" action="">
-            {{ form.hidden_tag() }}
-            <fieldset class="form-group">
+<div class="content-section">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
                 <div class="form-group">
                     {{ form.temp.label(class="form-control-label") }}
                     {% if form.temp.errors %}
@@ -31,93 +30,93 @@
                         {{ form.notes(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
-            </fieldset>
-            <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info") }}
-            </div>
-        </form>
-      </div>
-  </div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+    <canvas id="myChart" width="800" height="100"></canvas>
+    <div>
+                  <div class="btn-group">
+                      {% for record in current_user.records %}
+                          <button>
+                              {{ record.id }}
+                              <br>{{ record.temp }}
+                              <br>{{ record.date_posted.date().month }}-{{ record.date_posted.date().day }}
+                          </button>
+                      {% endfor %}
 
-    <div class="content-section">
-        <!-- bar chart canvas element -->
-        <canvas id="myChart" width="800" height="100"></canvas>
-          <div>
-              {% for record in current_user.records %}
-              <a class="btn btn-secondary btn-sm m-1 btn-block col" href=#>{{ record.temp }} - {{ record.date_posted.date() }}</a>
-              {% endfor %}
-              <a class="btn btn-secondary btn-sm mt-1 mb-1" href=#>Update</a>
-              <button type="button" class="btn btn-danger btn-sm mt-1 mb-1" data-target="#deleteModal">Delete</button>
-          </div>
+                  </div>
+                    <br>
+                  <a class="btn btn-secondary btn-sm mt-1 mb-1" href=#>Update</a>
+                  <button type="button" class="btn btn-danger btn-sm mt-1 mb-1" data-target="#deleteModal">Delete</button>
+              </div>
+    <script>
+              // Global parameters:
+              Chart.defaults.global.responsive = true;
 
-        <script>
-          // Global parameters:
-          Chart.defaults.global.responsive = true;
+              // define the chart data
+              var chartData = {
+                labels : [{% for item in current_user.records %}
+                           "{{item.date_posted.date()}}",
+                          {% endfor %}],
+                datasets : [{
+                    label: 'temperature',
+                    fill: true,
+                    lineTension: 0.1,
+                    backgroundColor: "rgba(133,53,98,0.3)",
+                    borderColor: "rgba(133,53,98,1)",
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: "rgba(133,53,98,1)",
+                    pointBackgroundColor: "#fff",
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "rgba(133,53,98,1)",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
+                    data : [{% for item in current_user.records %}
+                              {{item.temp}},
+                            {% endfor %}],
+                    spanGaps: false
 
-          // define the chart data
-          var chartData = {
-            labels : [{% for item in current_user.records %}
-                       "{{item.date_posted.date()}}",
-                      {% endfor %}],
-            datasets : [{
-                label: 'temperature',
-                fill: true,
-                lineTension: 0.1,
-                backgroundColor: "rgba(133,53,98,0.3)",
-                borderColor: "rgba(133,53,98,1)",
-                borderCapStyle: 'butt',
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                pointBorderColor: "rgba(133,53,98,1)",
-                pointBackgroundColor: "#fff",
-                pointBorderWidth: 1,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: "rgba(133,53,98,1)",
-                pointHoverBorderColor: "rgba(220,220,220,1)",
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
-                data : [{% for item in current_user.records %}
-                          {{item.temp}},
-                        {% endfor %}],
-                spanGaps: false
+                }]
+              }
 
-            }]
-          }
+              // get chart canvas
+              var holder = document.getElementById("myChart");
+              var ctx = document.getElementById("myChart").getContext("2d");
 
-          // get chart canvas
-          var holder = document.getElementById("myChart");
-          var ctx = document.getElementById("myChart").getContext("2d");
-
-          var myChart = new Chart(ctx, {
-            type: 'line',
-            data: chartData,
-            options: {
-              tooltips: {
-                enabled: true,
-                mode: 'single',
-                callbacks: {
-                  label: function(tooltipItems, data) {
-                           return tooltipItems.yLabel + ' degrees';
-                         }
+              var myChart = new Chart(ctx, {
+                type: 'line',
+                data: chartData,
+                options: {
+                  tooltips: {
+                    enabled: true,
+                    mode: 'single',
+                    callbacks: {
+                      label: function(tooltipItems, data) {
+                               return tooltipItems.yLabel + ' degrees';
+                             }
+                    }
+                  },
                 }
-              },
-            }
-          });
+              });
 
-          var pointSelected = document.getElementById("pointSelected");
+              var pointSelected = document.getElementById("pointSelected");
 
-          holder.onclick = function(evt){
-            var activePoint = myChart.getElementAtEvent(evt);
-            pointSelected.innerHTML = 'wybrany dzien: ' + activePoint[0]._index;
-          };
+              holder.onclick = function(evt){
+                var activePoint = myChart.getElementAtEvent(evt);
+                pointSelected.innerHTML = 'wybrany dzien: ' + activePoint[0]._index;
+              };
 
 
 
 
-        </script>
-    </div>
-
-
+            </script>
+</div>
 {% endblock content %}

@@ -16,7 +16,7 @@ h1, h2, h3, h4, h5, h6 {
   color: #ffffff;
 }
 
-.site-header .navbar-nav .nav-link:hover {
+.site-header, .navbar-nav, .nav-link, .button:hover {
   opacity: 0.8;
 }
 
@@ -32,7 +32,30 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 
+.btn-group button {
+  background-color: #853562;
+  border: 1px solid #e3b9d1;
+  color: white;
+  float: left;
+  border-radius: 3px;
+  font-weight: 400;
+  font-size: 0.65em;
+}
 
+.btn-group button:not(:last-child) {
+  border-right: none;
+}
+
+.btn-group:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  opacity:0.8;
+}
 
 
 
