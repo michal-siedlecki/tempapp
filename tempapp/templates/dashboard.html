@@ -35,17 +35,17 @@
             {{ form.submit(class="btn btn-outline-info") }}
         </div>
     </form>
-    <canvas id="myChart" width="800" height="100"></canvas>
+    <canvas id="myChart" width="800" height="350"></canvas>
     <div>
                   <div class="btn-group">
-                      {% for record in current_user.records %}
-                          <button>
-                              {{ record.id }}
-                              <br>{{ record.temp }}
-                              <br>{{ record.date_posted.date().month }}-{{ record.date_posted.date().day }}
-                          </button>
-                      {% endfor %}
-
+                          {% for record in current_user.records %}
+                              <button>
+                                  {{ record.id }}
+                                  <br>{{ record.temp }}
+                                  <br>{{ record.date_posted.date().month }}
+                                  <br>{{ record.date_posted.date().day }}
+                              </button>
+                          {% endfor %}
                   </div>
                     <br>
                   <a class="btn btn-secondary btn-sm mt-1 mb-1" href=#>Update</a>

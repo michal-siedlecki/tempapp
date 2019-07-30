@@ -32,32 +32,42 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 
+.btn-group {
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  grid-gap:0.3em;
+}
+
+
 .btn-group button {
   background-color: #853562;
   border: 1px solid #e3b9d1;
   color: white;
-  float: left;
   border-radius: 3px;
   font-weight: 400;
-  font-size: 0.65em;
+  font-size: 1em;
 }
 
 .btn-group button:not(:last-child) {
   border-right: none;
 }
 
-.btn-group:after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-/* Add a background color on hover */
 .btn-group button:hover {
   opacity:0.8;
 }
 
-
-
-
-
+@media screen and (max-width: 700px) {
+    .btn-group {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      grid-gap:0.1em;
+    }
+    .btn-group button {
+      background-color: #853562;
+      border: 1px solid #e3b9d1;
+      color: white;
+      border-radius: 3px;
+      font-weight: 400;
+      font-size: 0.8em;
+    }
+}
