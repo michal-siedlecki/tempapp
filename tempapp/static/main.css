@@ -56,7 +56,7 @@ h1, h2, h3, h4, h5, h6 {
   opacity:0.8;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 1000px) {
     .btn-group {
       display: grid;
       grid-template-columns: repeat(10, 1fr);
