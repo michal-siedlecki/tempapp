@@ -3,9 +3,8 @@
 <div class="content-section">
     <form method="POST" action="">
         {{ form.hidden_tag() }}
-        <fieldset class="form-group">
-                <div class="form-group">
-                    {{ form.temp.label(class="form-control-label") }}
+        <div class="form-box">
+            <div class="form-group">
                     {% if form.temp.errors %}
                         {{ form.temp(class="form-control form-control-lg is-invalid") }}
                         <div class="invalid-feedback">
@@ -17,8 +16,7 @@
                         {{ form.temp(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
-                <div class="form-group">
-                    {{ form.notes.label(class="form-control-label") }}
+            <div class="form-group">
                     {% if form.notes.errors %}
                         {{ form.notes(class="form-control form-control-lg is-invalid") }}
                         <div class="invalid-feedback">
@@ -30,27 +28,22 @@
                         {{ form.notes(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
-        </fieldset>
-        <div class="form-group">
-            {{ form.submit(class="btn btn-outline-info") }}
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
         </div>
     </form>
-    <canvas id="myChart" width="800" height="350"></canvas>
+    <canvas id="myChart"></canvas>
     <div>
-                  <div class="btn-group">
-                          {% for record in current_user.records %}
-                              <button>
-                                  {{ record.id }}
-                                  <br>{{ record.temp }}
-                                  <br>{{ record.date_posted.date().month }}
-                                  <br>{{ record.date_posted.date().day }}
-                              </button>
-                          {% endfor %}
-                  </div>
-                    <br>
-                  <a class="btn btn-secondary btn-sm mt-1 mb-1" href=#>Update</a>
-                  <button type="button" class="btn btn-danger btn-sm mt-1 mb-1" data-target="#deleteModal">Delete</button>
-              </div>
+        <div class="btn-group">
+        {% for record in current_user.records %}
+            <a class="button" href="{{ url_for('record_update', record_id=record.id) }}">
+                [{{ record.id }}] {{ record.temp }}<br>
+                {{ record.date_posted.date().month }} - {{ record.date_posted.date().day }}
+            </a>
+        {% endfor %}
+    </div>
+    </div>
     <script>
               // Global parameters:
               Chart.defaults.global.responsive = true;
@@ -58,7 +51,7 @@
               // define the chart data
               var chartData = {
                 labels : [{% for item in current_user.records %}
-                           "{{item.date_posted.date()}}",
+                           "[{{ item.id }}] {{item.date_posted.strftime('%m-%d')}}",
                           {% endfor %}],
                 datasets : [{
                     label: 'temperature',
@@ -107,16 +100,16 @@
                 }
               });
 
-              var pointSelected = document.getElementById("pointSelected");
+              // get the text element below the chart
+
+                var pointSelected = document.getElementById("pointSelected");
+
+              // create a callback function for updating the selected index on the chart
 
               holder.onclick = function(evt){
                 var activePoint = myChart.getElementAtEvent(evt);
-                pointSelected.innerHTML = 'wybrany dzien: ' + activePoint[0]._index;
+                location.href="record_update/" + (activePoint[0]._index + 1);
               };
-
-
-
-
             </script>
 </div>
 {% endblock content %}

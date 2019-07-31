@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <div class="form-box">
+
+            <div class="form-group">
+                    {% if form.temp.errors %}
+                        {{ form.temp(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.temp.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.temp(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            <div class="form-group">
+                    {% if form.notes.errors %}
+                        {{ form.notes(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.notes.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.notes(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            <div>
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </div>
+    </form>
+    <div class="btn-group">
+        {% for record in current_user.records %}
+            <a class="button" href="{{ url_for('record_update', record_id=record.id) }}">
+                [{{ record.id }}] {{ record.temp }}<br>
+                {{ record.date_posted.date().month }} - {{ record.date_posted.date().day }}
+            </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

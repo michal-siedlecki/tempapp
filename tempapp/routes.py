@@ -1,4 +1,4 @@
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, abort
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 import requests
@@ -71,9 +71,11 @@ def account():
 @login_required
 def dashboard():
     form = NewRecordForm()
+    form.temp.data = 'temperature'
+    form.notes.data = 'notes'
     if form.validate_on_submit():
-        temp = Record(temp=form.temp.data, notes=form.notes.data, author=current_user)
-        db.session.add(temp)
+        record = Record(temp=form.temp.data, notes=form.notes.data, author=current_user)
+        db.session.add(record)
         db.session.commit()
         flash(f'Temperature added!', 'success')
         return redirect(url_for('dashboard'))
@@ -121,3 +123,22 @@ def reset_token(token):
         flash('Your password has been updated! You are now able to log in', 'success')
         return redirect(url_for('login'))
     return render_template('reset_token.html', title='Reset Password', form=form)
+
+
+@app.route("/record_update/<record_id>", methods=['GET', 'POST'])
+@login_required
+def record_update(record_id):
+    record = Record.query.get_or_404(record_id)
+    if record.author != current_user:
+        abort(403)
+    form = NewRecordForm()
+    if form.validate_on_submit():
+        record.temp = form.temp.data
+        record.notes = form.notes.data
+        db.session.commit()
+        flash(f'Record updated', 'success')
+        return redirect(url_for('dashboard'))
+    else:
+        form.temp.data = record.temp
+        form.notes.data = record.notes
+    return render_template('record_update.html', title='Input temp', form=form)
