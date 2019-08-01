@@ -15,6 +15,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     records = db.relationship('Record', backref='author', lazy=True)
+    old_records = db.relationship('OldRecord', backref='author', lazy=True)
 
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(app.config['SECRET_KEY'], expires_sec)
@@ -42,3 +43,10 @@ class Record(db.Model):
 
     def __repr__(self):
         return f"Record('{self.temp}', '{self.notes}','{self.date_posted}')"
+
+
+class OldRecord(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    record = db.Column(db.String, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+

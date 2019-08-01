@@ -5,7 +5,7 @@ import requests
 from tempapp import app, db, bcrypt, mail
 from tempapp.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
                            NewRecordForm, RequestResetForm, ResetPasswordForm)
-from tempapp.models import User, Record
+from tempapp.models import User, Record, OldRecord
 
 
 @app.route("/")
@@ -142,3 +142,17 @@ def record_update(record_id):
         form.temp.data = record.temp
         form.notes.data = record.notes
     return render_template('record_update.html', title='Input temp', form=form)
+
+@login_required
+@app.route("/archivise")
+def archivise():
+    user = User.query.filter_by(username=current_user.username).first()
+    temps = list(Record.query.filter_by(author=user.id).temp)
+    notes = list(Record.query.filter_by(author=user.id).notes)
+    passed = OldRecord(record=str(zip(temps, notes)), user_id=user.id)
+    db.session.add(passed)
+    db.session.commit()
+    db.session.query(Record).filter_by(author=current_user.username).delete()
+    db.session.commit()
+
+    return redirect(url_for('dashboard'))
