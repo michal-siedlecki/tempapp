@@ -71,3 +71,9 @@ class ResetPasswordForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset Password')
+
+
+class RenameRecordForm(FlaskForm):
+    record_name = StringField('Name')
+    submit = SubmitField('Update name')
+

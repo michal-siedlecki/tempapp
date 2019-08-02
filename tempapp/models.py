@@ -48,5 +48,6 @@ class Record(db.Model):
 class OldRecord(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     record = db.Column(db.String, nullable=False)
+    name = db.Column(db.String, default='pass')
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 

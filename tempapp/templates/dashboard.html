@@ -27,10 +27,11 @@
                     {% else %}
                         {{ form.notes(class="form-control form-control-lg") }}
                     {% endif %}
-                </div>
+            </div>
             <div class="form-group">
                 {{ form.submit(class="btn btn-outline-info") }}
                 <a class="button" href="{{ url_for('archivise')}}">clear chart</a>
+                <a class="button" href="{{ url_for('old_records')}}">history</a>
             </div>
         </div>
     </form>

@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+    {% for record in old_records %}
+        {{ record.name }}  {{ record.record }}
+        <div class="form-group">
+            {% if form.record_name.errors %}
+                {{ form.record_name(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.record_name.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+            {{ form.record_name(class="form-control form-control-lg") }}
+            {% endif %}
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    {% endfor %}
+</div>
+{% endblock content %}

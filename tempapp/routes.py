@@ -4,7 +4,7 @@ from flask_mail import Message
 import requests
 from tempapp import app, db, bcrypt, mail
 from tempapp.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
-                           NewRecordForm, RequestResetForm, ResetPasswordForm)
+                           NewRecordForm, RequestResetForm, ResetPasswordForm, RenameRecordForm)
 from tempapp.models import User, Record, OldRecord
 
 
@@ -156,7 +156,15 @@ def archivise():
     return redirect(url_for('dashboard'))
 
 @login_required
-@app.route("/old_records")
-def old_records():
+@app.route("/old_records", methods=['GET', 'POST'])
+def old_records(record=None):
     old_records = OldRecord.query.filter_by(author=current_user)
-    return render_template('old_records.html', title='archivised')
+    form = RenameRecordForm()
+    if form.validate_on_submit():
+        record.name = form.record_name.data
+        db.session.commit()
+        flash(f'Record updated', 'success')
+        return redirect(url_for('old_records'))
+    else:
+        form.record_name.data = ''
+    return render_template('old_records.html', title='archivised', old_records=old_records, form=form)
