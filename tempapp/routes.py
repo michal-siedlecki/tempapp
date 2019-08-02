@@ -71,8 +71,6 @@ def account():
 @login_required
 def dashboard():
     form = NewRecordForm()
-    form.temp.data = 'temperature'
-    form.notes.data = 'notes'
     if form.validate_on_submit():
         record = Record(temp=form.temp.data, notes=form.notes.data, author=current_user)
         db.session.add(record)
@@ -146,13 +144,19 @@ def record_update(record_id):
 @login_required
 @app.route("/archivise")
 def archivise():
-    user = User.query.filter_by(username=current_user.username).first()
-    temps = list(Record.query.filter_by(author=user.id).temp)
-    notes = list(Record.query.filter_by(author=user.id).notes)
-    passed = OldRecord(record=str(zip(temps, notes)), user_id=user.id)
+
+    temps = list(x.temp for x in Record.query.filter_by(author=current_user))
+    notes = list(x.notes for x in Record.query.filter_by(author=current_user))
+    passed = OldRecord(record=str(list(zip(temps, notes))), user_id=current_user.id)
     db.session.add(passed)
     db.session.commit()
-    db.session.query(Record).filter_by(author=current_user.username).delete()
+    db.session.query(Record).filter_by(author=current_user).delete()
     db.session.commit()
 
     return redirect(url_for('dashboard'))
+
+@login_required
+@app.route("/old_records")
+def old_records():
+    old_records = OldRecord.query.filter_by(author=current_user)
+    return render_template('old_records.html', title='archivised')
