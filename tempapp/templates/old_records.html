@@ -1,21 +1,33 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="content-section">
     {% for record in old_records %}
-        {{ record.name }}  {{ record.record }}
-        <div class="form-group">
-            {% if form.record_name.errors %}
-                {{ form.record_name(class="form-control form-control-lg is-invalid") }}
-                <div class="invalid-feedback">
-                    {% for error in form.record_name.errors %}
-                    <span>{{ error }}</span>
-                    {% endfor %}
+        <div class="content-section">
+                <p>{{ record.id }} - {{ record.name }}</p>
+                <p>{{ record.record.strip('[').strip(']') }}</p>
+
+            <div class="input-section">
+                <div class="form-group">
+                    <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#modal-{{ record.id }}">Rename</button>
                 </div>
-            {% else %}
-            {{ form.record_name(class="form-control form-control-lg") }}
-            {% endif %}
-            {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+
+        </div>
+
+        <div class="modal fade" id="modal-{{ record.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form action="{{ url_for('rename_record', record_id=record.id) }}" method="POST">
+                      <div class="modal-body">
+                            {{ form.hidden_tag() }}
+                            {{ form.record_name(class="form-control form-control-lg") }}
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                          {{ form.submit(class="btn btn-outline-info") }}
+                      </div>
+                    </form>
+                </div>
+              </div>
         </div>
     {% endfor %}
-</div>
 {% endblock content %}

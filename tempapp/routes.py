@@ -1,7 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, abort
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
-import requests
 from tempapp import app, db, bcrypt, mail
 from tempapp.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
                            NewRecordForm, RequestResetForm, ResetPasswordForm, RenameRecordForm)
@@ -152,19 +151,24 @@ def archivise():
     db.session.commit()
     db.session.query(Record).filter_by(author=current_user).delete()
     db.session.commit()
-
     return redirect(url_for('dashboard'))
 
 @login_required
 @app.route("/old_records", methods=['GET', 'POST'])
-def old_records(record=None):
+def old_records():
     old_records = OldRecord.query.filter_by(author=current_user)
     form = RenameRecordForm()
+    return render_template('old_records.html', title='archivised', old_records=old_records, form=form)
+
+
+@login_required
+@app.route("/rename_record/<record_id>", methods=['GET', 'POST'])
+def rename_record(record_id):
+    form = RenameRecordForm()
     if form.validate_on_submit():
+        record = OldRecord.query.filter_by(id=record_id).first()
         record.name = form.record_name.data
         db.session.commit()
-        flash(f'Record updated', 'success')
+        flash(f'Record name updated {form.record_name.data}', 'success')
         return redirect(url_for('old_records'))
-    else:
-        form.record_name.data = ''
-    return render_template('old_records.html', title='archivised', old_records=old_records, form=form)
+
