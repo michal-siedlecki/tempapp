@@ -5,25 +5,35 @@
                 <p>
                     {{ record.id }} -
                     {{ record.date_begin.strftime("%d:%m:%Y") }} -
-                    {{ record.date_end.strftime("%d:%m:%Y") }}
+                    <span class="day-info">
+                       {{ (record.date_end - record.date_begin).days }} days
+                    </span>
+                    - {{ record.date_end.strftime("%d:%m:%Y") }}
                     {% if record.name %}
                     -
                     ({{ record.name }})
                     {% endif %}
+                    <button type="button" class="btn btn-outline-info btn-sm float-right" data-toggle="modal" data-target="#modal-{{ record.id }}">Rename</button>
                 </p>
-            <div class="input-section">
-                <div class="form-group">
-                    <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#modal-{{ record.id }}">Rename</button>
-                </div>
-            </div>
-
         </div>
 
         <div class="modal fade" id="modal-{{ record.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h6 class="modal-title">{{ record.id }}</h6>
+                        {% if record.name %}
+                        <h6 class="modal-title"> {{ record.name }}</h6>
+                        {% endif %}
+                    </div>
+
                     <form action="{{ url_for('rename_record', record_id=record.id) }}" method="POST">
                       <div class="modal-body">
+                        <div>
+                            <p>{{ record.temps.strip('[').strip(']') }}</p>
+                        </div>
+
                             {{ form.hidden_tag() }}
                             {{ form.record_name(class="form-control form-control-lg") }}
                       </div>
