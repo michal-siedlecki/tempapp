@@ -144,10 +144,13 @@ def record_update(record_id):
 @app.route("/archivise")
 def archivise():
 
-    temps = list(x.temp for x in Record.query.filter_by(author=current_user))
-    notes = list(x.notes for x in Record.query.filter_by(author=current_user))
-    passed = OldRecord(record=str(list(zip(temps, notes))), user_id=current_user.id)
-    db.session.add(passed)
+    temps = str(list(x.temp for x in Record.query.filter_by(author=current_user)))
+    notes = str(list(x.notes for x in Record.query.filter_by(author=current_user)))
+    date_list = list(x.date_posted for x in Record.query.filter_by(author=current_user))
+    date_begin = date_list[0]
+    date_end = date_list[-1]
+    old_record = OldRecord(temps=temps, notes=notes, date_begin=date_begin, date_end=date_end, author=current_user)
+    db.session.add(old_record)
     db.session.commit()
     db.session.query(Record).filter_by(author=current_user).delete()
     db.session.commit()
@@ -169,6 +172,6 @@ def rename_record(record_id):
         record = OldRecord.query.filter_by(id=record_id).first()
         record.name = form.record_name.data
         db.session.commit()
-        flash(f'Record name updated {form.record_name.data}', 'success')
+        flash(f'Record name updated', 'success')
         return redirect(url_for('old_records'))
 

@@ -47,7 +47,12 @@ class Record(db.Model):
 
 class OldRecord(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    record = db.Column(db.String, nullable=False)
-    name = db.Column(db.String, default='pass')
+    temps = db.Column(db.String, nullable=False)
+    notes = db.Column(db.String, nullable=False)
+    date_begin = db.Column(db.DateTime, nullable=False)
+    date_end = db.Column(db.DateTime, nullable=False)
+    name = db.Column(db.String, default='')
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
+    def __repr__(self):
+        return f"OldRecord('{self.date_begin}', '{self.date_end}', '{self.name}', '{self.temps}', '{self.notes}')"

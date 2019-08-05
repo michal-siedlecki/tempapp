@@ -2,9 +2,15 @@
 {% block content %}
     {% for record in old_records %}
         <div class="content-section">
-                <p>{{ record.id }} - {{ record.name }}</p>
-                <p>{{ record.record.strip('[').strip(']') }}</p>
-
+                <p>
+                    {{ record.id }} -
+                    {{ record.date_begin.strftime("%d:%m:%Y") }} -
+                    {{ record.date_end.strftime("%d:%m:%Y") }}
+                    {% if record.name %}
+                    -
+                    ({{ record.name }})
+                    {% endif %}
+                </p>
             <div class="input-section">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#modal-{{ record.id }}">Rename</button>

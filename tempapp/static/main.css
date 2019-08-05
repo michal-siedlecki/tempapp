@@ -1,5 +1,5 @@
 body {
-  background: #ffffff;
+  background: #F9F9F9;
   color: #000000;
   margin-top: 5rem;
 }
@@ -9,25 +9,24 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .bg-steel {
-  background-color: #853562;
+  background-color: #43BC78;
 }
 
 .site-header .navbar-nav .nav-link {
   color: #ffffff;
 }
 
-.site-header, .navbar-nav, .nav-link, .button:hover {
-  opacity: 0.8;
-}
+
 
 .content-section, .navbar, #myChart{
   border-radius: 3px;
   margin-top:0.5em;
-  border: 1px solid #e3b9d1;
+  border: 1px solid #ffffff;
+  max-height: 700px;
 }
 
 .content-section{
-  background-color: #f1dce8;
+  background-color: #ffffff;
   padding: 10px 10px;
 
 }
@@ -49,6 +48,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .management-section{
   grid-column: 5/6;
+
 }
 
 
@@ -63,13 +63,14 @@ h1, h2, h3, h4, h5, h6 {
 
 
 .btn-group .button {
-  background-color: #853562;
-  border: 1px solid #e3b9d1;
-  color: white;
+
+  border: 1px solid #43BC78;
   border-radius: 3px;
   font-weight: 100;
   font-size: 0.8em;
   text-align:center;
+  text-decoration: none;
+  color: #000000;
 }
 
 .btn-group button:not(:last-child) {
@@ -80,12 +81,7 @@ h1, h2, h3, h4, h5, h6 {
   opacity:0.8;
 }
 
-<<<<<<< HEAD
-#myChart{
-     width: 800;
-     height: 200;
 
-}
 
 a p{
     font-weight: 400;
@@ -93,21 +89,3 @@ a p{
 }
 
 
-@media screen and (max-width: 700px) {
-=======
-@media screen and (max-width: 1000px) {
->>>>>>> 2d3d9d5afeed28ebac86c645e6bac6c49b7829ae
-    .btn-group {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      grid-gap:0.1em;
-    }
-    .btn-group .button {
-      background-color: #853562;
-      border: 1px solid #e3b9d1;
-      color: white;
-      border-radius: 3px;
-      font-weight: 400;
-      font-size: 0.3em;
-    }
-}
