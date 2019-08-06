@@ -2,6 +2,8 @@
 # from tempapp.models import User, Record
 import numpy as np
 from datetime import datetime
+import datetime
+
 
 
 def add_user():
@@ -18,16 +20,17 @@ def add_new_record(temp, date):
     db.session.commit()
 
 
-date_begin = np.datetime64('2019-06-28')
-low = np.random.uniform(36.3, 36.45, size=14)
-high = np.random.uniform(36.6, 37.0, size=14)
-temp_list = [round(x, 2) for x in np.concatenate((low, high), axis=None)]
-date_end = date_begin + np.timedelta64(len(temp_list), 'D')
-date_list64 = np.arange(date_begin, date_end, 1)
-date_list = []
+def temps_dates():
+    low = np.random.uniform(36.3, 36.45, size=14)
+    high = np.random.uniform(36.6, 37.0, size=14)
+    temp_list = [round(x, 2) for x in np.concatenate((low, high), axis=None)]
+ 
+    numdays = len(temp_list)
+    date_begin = datetime.datetime.strptime("21-01-2014", "%d-%m-%Y")
+    date_list = [date_begin + datetime.timedelta(days=x) for x in range(numdays)]
+    date_end = date_list[-1]
+    res = {date_list[i]: temp_list[i] for i in range(len(date_list))}
+    return res
 
-date_list64[6].astype(datetime)
-
-# add_user()
-# for i in range(len(temp_list)):
-#     add_new_record(temp_list[i], date_list[i])
+for date,temp in temps_dates().items():
+    print(temp, date)
