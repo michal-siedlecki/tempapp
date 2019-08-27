@@ -11,11 +11,21 @@ Flask-SQLAlchemy==2.3.2
 Flask-WTF==0.14.2
 gunicorn==19.9.0
 itsdangerous==0.24
+<<<<<<< HEAD
 Jinja2==2.10.1
+=======
+Jinja2==2.10
+>>>>>>> ca5c1863449746e67852440a0e47050c3cd0d1d2
 MarkupSafe==1.0
 Pillow==5.3.0
 pycparser==2.18
 six==1.11.0
+<<<<<<< HEAD
 SQLAlchemy==1.3.0
 Werkzeug==0.15.3
 WTForms==2.1
+=======
+SQLAlchemy==1.2.7
+Werkzeug==0.14.1
+WTForms==2.1
+>>>>>>> ca5c1863449746e67852440a0e47050c3cd0d1d2
