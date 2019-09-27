@@ -17,5 +17,5 @@ Feature list:
 
 ### To do list:
 
-- connect databese to save profiles
+- connect database to save profiles
 - some UI fixes
