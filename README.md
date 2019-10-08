@@ -3,7 +3,7 @@
 
 This is a simple web based ovulation calendar app. Application avaliable in it's beta version. 
 
-[Here You can try how it works](https://ovu-cal.herokuapp.com)
+[Here You can try how it works](https://ovu-cal.herokuapp.com)\n
 testing account: admin@admin.com
 pass: admin
 
