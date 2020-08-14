@@ -54,8 +54,6 @@ class OldRecord(db.Model):
     name = db.Column(db.String, default='')
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-
-
     def __repr__(self):
         return f"OldRecord('{self.date_begin}', '{self.date_end}', " \
             f"'{self.name}', '{self.temps}', '{self.notes}')"
