@@ -20,7 +20,7 @@
     <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredPackages">
         <value>
-          <list size="217">
+          <list size="220">
             <item index="0" class="java.lang.String" itemvalue="bs4" />
             <item index="1" class="java.lang.String" itemvalue="certifi" />
             <item index="2" class="java.lang.String" itemvalue="python-dateutil" />
@@ -238,6 +238,9 @@
             <item index="214" class="java.lang.String" itemvalue="stop-words" />
             <item index="215" class="java.lang.String" itemvalue="ply" />
             <item index="216" class="java.lang.String" itemvalue="openpyxl" />
+            <item index="217" class="java.lang.String" itemvalue="email-validator" />
+            <item index="218" class="java.lang.String" itemvalue="dnspython" />
+            <item index="219" class="java.lang.String" itemvalue="click" />
           </list>
         </value>
       </option>
