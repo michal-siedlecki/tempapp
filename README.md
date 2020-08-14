@@ -11,7 +11,7 @@ Feature list:
 
 ![](images/tempapp_img.jpg)
 ----
-![](images/vid.jpg)
+![](images/vid.gif)
 
 
 
